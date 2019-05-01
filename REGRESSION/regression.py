@@ -3,36 +3,31 @@ https://pythonprogramming.net/regression-introduction-machine-learning-tutorial/
 
 COMMAND FOR EXECUTION: 
 
-    C:/Users/Emm/AppData/Local/Programs/Python/Python37-32/python.exe c/Users/Emm/Documents/NetBeansProjects/PYTHONPROGRAMMING_DOT_NET/REGRESSION
-/regression.py
+    C:/Users/Emm/AppData/Local/Programs/Python/Python37-32/python.exe regression.py
 
 '''
 
-
-
-
-
+import quandl, math
+import numpy as np
 import pandas as pd
-import quandl
+
+
+'''
+cross_validation is deprecated since version 0.18. This module will be removed in 0.20. Use sklearn.model_selection.train_test_split instead.
+'''
+#from sklearn import preprocessing, cross_validation, svm
+
+
+from sklearn.model_selection import cross_validate
+from sklearn import preprocessing, svm
+from sklearn.linear_model import LinearRegression
+
+
 
 df = quandl.get("WIKI/GOOGL")
-
 df = df[['Adj. Open',  'Adj. High',  'Adj. Low',  'Adj. Close', 'Adj. Volume']]
-
-'''
-This creates a new column that is the % spread based on the closing price, which is our crude measure of volatility. Next, we'll do daily percent change:
-'''
-df['HL_PCT'] = (df['Adj. High'] - df['Adj. Low']) / df['Adj. Low'] * 100.0
-
-'''
-I went ahead and recorded the video version of this, not realizing my stake that it was high minus low divided by close. I meant to do High - Low, divided by the low. Feel free to fix that if you like.
-
-This creates a new column that is the % spread based on the closing price, which is our crude measure of volatility. Next, we'll do daily percent change:
-
-'''
-df['PCT_change'] = (df['Adj. Close'] - df['Adj. Open']) / df['Adj. Open'] * 100.0;
-
-#Now we will define a new dataframe as:
+df['HL_PCT'] = (df['Adj. High'] - df['Adj. Low']) / df['Adj. Close'] * 100.0
+df['PCT_change'] = (df['Adj. Close'] - df['Adj. Open']) / df['Adj. Open'] * 100.0
 df = df[['Adj. Close', 'HL_PCT', 'PCT_change', 'Adj. Volume']]
 
 print(df.head());

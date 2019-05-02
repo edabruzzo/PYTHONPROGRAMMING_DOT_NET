@@ -89,13 +89,17 @@ print(y_train.shape)
 print(y_test.shape)
 
 
-classificador1 = svm.SVR();
-#conjunto de treinamento - treinando modelo
-classificador1.fit(X_train, y_train);
+# Trying the different kinds of kernels 
+for kernel in ['linear','poly','rbf','sigmoid']:
+    classificador1 = svm.SVR();
+    #conjunto de treinamento - treinando modelo
+    classificador1.fit(X_train, y_train);
+    #Here, we're "fitting" our training features and training labels.
+    #Our classifier is now trained. Wow that was easy. Now we can test it!
+    confidence = classificador1.score(X_test, y_test)
+    print('Indicador de Confidência do modelo preditivo SVM - Support Vector Machine %d, using the kernel %s' %(confidence, kernel))
 
-#Here, we're "fitting" our training features and training labels.
-#Our classifier is now trained. Wow that was easy. Now we can test it!
+# When you use n_jobs = -1, the algorithm uses all CPU cores available
+classificador2 = LinearRegression(n_jobs = -1)
 
-confidence = classificador1.score(X_test, y_test)
-print(confidence)
 
